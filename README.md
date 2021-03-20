@@ -2,7 +2,7 @@
 
 Team Members: 
 
-Hector D Jimenez Mercado - daniel.berrios@upr.edu
+Hector D Jimenez Mercado - hector.jimenez@upr.edu
 
 Daniel O Berrios Rodriguez - daniel.berrios@upr.edu
 
@@ -11,4 +11,4 @@ Gabriela A Santiago Cintron - gabriela.santiago18@upr.edu
 Geraldo A. Vera Perez - geraldo.vera@upr.edu
 
 
-ER Video: 
+ER Video: https://www.youtube.com/watch?v=5AlIQGi6cMA
