@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": ""
+    "test": "jest"
+  },
+  "jest": {
+    "verbose": true
   },
   "author": "CyberFreaks",
   "license": "ISC",
