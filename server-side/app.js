@@ -12,10 +12,10 @@ app.get('/api/', (req, res) => {
     res.send("API is running successfully.")
 })
 
-// const userRouter = require('./routes/user-router'); 
-// const postRouter = require('./routes/post-router') ;
+const userRouter = require('./routes/user.router'); 
+// const postRouter = require('./routes/post.router') ;
 
-// app.use('/api/users', userRouter);
+app.use('/api/users', userRouter);
 // app.use('/api/posts', postRouter);
 
 app.listen(port, () => {
