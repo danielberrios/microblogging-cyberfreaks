@@ -4,23 +4,51 @@ class UserController {
     constructor() { /* Initializes UserModel */ }
 
     async registerUser(req, res) {
-        return "TODO"
+        try{
+            await UserModel.addNewUser(req.body)
+            res.status(201).send("Successfully registered new user.")
+
+        } catch (error) {
+            res.status(409).send(error.message)
+        }
     }
 
     async getAllUsers(req, res) {
-        res.send(await UserModel.getListOfUsers())
+        try{
+            let users = await UserModel.getListOfUsers()
+            res.status(200).send(users)
+        } catch(error) {
+            res.status(404).send("Resources not found.")
+        }
     }
 
     async getUserById(req, res) {
-        return "TODO"
+        let user = await UserModel.getSpecificUserWith(req.query.uid)
+        
+        if(user)
+            res.status(200).send(user)
+        else
+            res.status(404).send("User not found.")
     }
 
     async updateUserInfo(req, res) {
-        return "TODO"
+        try {
+            await UserModel.updateInformationWith(req.query.uid, req.body)
+            res.status(200).send("Successfully updated user information.")
+
+        } catch (error) {
+            res.status(409).send(error.message)
+        }
     }
 
     async deleteUser(req, res) {
-        return "TODO"
+        try {
+            await UserModel.removeUserWith(req.query.uid)
+            res.status(200).send("Successfully removed user.")
+
+        } catch (error) {
+            res.status(404).send(error.message)
+        }
     }
 
     async followUser(req, res) {
@@ -57,5 +85,4 @@ class UserController {
 }
 
 const instance = new UserController()
-
 module.exports = instance

@@ -6,9 +6,9 @@ const UserController = require('../controllers/user.controller.js')
 // ROUTES + HANDLERS
 router.post('/', UserController.registerUser)
 router.get('/', UserController.getAllUsers)
-router.get('/:uid', UserController.getUserById)
-router.put('/:uid', UserController.updateUserInfo)
-router.delete('/:uid', UserController.deleteUser)
+router.get('/user', UserController.getUserById)
+router.put('/user', UserController.updateUserInfo)
+router.delete('/user', UserController.deleteUser)
 
 router.post('/follow/:uid', UserController.followUser);
 router.get('/followedBy/:uid', UserController.getUsersFollowedBy)
