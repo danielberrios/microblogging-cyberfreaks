@@ -58,11 +58,16 @@ class UserModel {
             })
             .catch(error => {
                 console.error(error)
+                throw new Error("Some error has occurred.")
             })
             .finally(() => connection.end())
     }
 
     async updateInformationWith(uid, userData) {
+        // Verify if user exists.
+        if(! await this.getSpecificUserWith(uid))
+            throw new Error("User not found.")
+
         const {first_name, last_name, email, password, username} = userData
 
         let connection = connect(),
