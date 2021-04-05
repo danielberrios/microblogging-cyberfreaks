@@ -15,8 +15,8 @@ class UserController {
             })
     }
 
-    getAllUsers(req, res) {
-        UserModel.getListOfUsers()
+    getListOfUsers(req, res) {
+        UserModel.getAllUsers()
             .then((users) => { 
                 res.status(200).send(users) 
             })

@@ -33,7 +33,7 @@ class UserModel {
                 .finally(() => connection.end())
     }
 
-    async getListOfUsers() {
+    async getAllUsers() {
         let connection = connect(),
             query = `SELECT * FROM users`
 
