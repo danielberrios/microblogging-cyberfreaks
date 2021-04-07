@@ -1,7 +1,7 @@
 const UserModel = require('../models/user.model')
 
 class UserController {
-    constructor() { /* Initializes UserModel */ }
+    constructor() { }
 
     registerUser(req, res) {
         const userData = req.body
@@ -60,24 +60,56 @@ class UserController {
                 res.status(200).send("Successfully removed user.")
             })
             .catch((error) => {
-                res.status(404).send(error.message)
+                res.status(500).send(error.message)
             })
     }
 
     followUser(req, res) {
-        return "TODO"
+        const [followerId, followedId] = [req.body.follower, req.query.uid]
+
+        UserModel.registerNewFollower(followerId, followedId)
+            .then(() => {
+                res.status(201).send("Successfully registered new follower.")
+            })
+            .catch((error) => {
+                res.status(404).send(error.message)
+            })
     }
 
     getUsersFollowedBy(req, res) {
-        return "TODO"
+        const followerId = req.query.uid 
+
+        UserModel.getUsersFollowedBy(followerId)
+            .then((users) => {
+                res.status(200).send(users)
+            })
+            .catch((error) => {
+                res.status(404).send(error.message)
+            })
     }
 
     getUsersFollowing(req, res) {
-        return "TODO"
+        const userId = req.query.uid
+
+        UserModel.getUsersWhoAreFollowing(userId)
+            .then((users) => {
+                res.status(200).send(users)
+            })
+            .catch((error) => {
+                res.status(404).send(error.message)
+            })
     }
 
     unfollowUser(req, res) {
-        return "TODO"
+        const [unFollowerId, unFollowedId] = [req.body.unfollower, req.query.uid]
+
+        UserModel.handleUnfollow(unFollowerId, unFollowedId)
+            .then(() => {
+                res.status(201).send("Successfully removed follower.")
+            })
+            .catch((error) => {
+                res.status(404).send(error.message)
+            })
     }
 
     blockUser(req, res) {
@@ -97,5 +129,4 @@ class UserController {
     }
 }
 
-const instance = new UserController()
-module.exports = instance
+module.exports = new UserController()

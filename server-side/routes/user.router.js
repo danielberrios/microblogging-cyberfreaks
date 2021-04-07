@@ -10,10 +10,10 @@ router.get('/user', UserController.getUserById)
 router.put('/user', UserController.updateUserInfo)
 router.delete('/user', UserController.deleteUser)
 
-router.post('/follow/:uid', UserController.followUser);
-router.get('/followedBy/:uid', UserController.getUsersFollowedBy)
-router.get('/following/:uid', UserController.getUsersFollowing)
-router.post('/unfollow/:uid', UserController.unfollowUser)
+router.post('/follow', UserController.followUser);
+router.get('/followedBy', UserController.getUsersFollowedBy)
+router.get('/following', UserController.getUsersFollowing)
+router.post('/unfollow', UserController.unfollowUser)
 
 router.post('/block/:uid', UserController.blockUser)
 router.get('/blockedBy/:uid', UserController.getUsersBlockedBy)
