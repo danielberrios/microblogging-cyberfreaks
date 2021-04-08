@@ -105,27 +105,68 @@ class UserController {
 
         UserModel.handleUnfollow(unFollowerId, unFollowedId)
             .then(() => {
-                res.status(201).send("Successfully removed follower.")
+                res.status(201).send("Successfully unfollowed user.")
+            })
+            .catch((error) => {
+                res.status(500).send("Some error has occurred.")
+            })
+    }
+
+    blockUser(req, res) {
+        const [blockerId, blockedId] = [req.body.blocker, req.query.uid]
+
+        UserModel.registerBlock(blockerId, blockedId)
+            .then(() => {
+                res.status(201).send("Successfully blocked user.")
+            })
+            .catch((error) => {
+                switch(error.constraint){
+                    case 'blocks_blocker_id_fkey':
+                        res.status(404).send("Blocker ID does not exist in database.")
+
+                    case 'blocks_blocked_id_fkey':
+                        res.status(404).send("Blocked ID does not exist in database.")
+                        
+                    default: 
+                        res.status(500).send("Some error has occurred.")
+                }
+            })
+    }
+
+    getUsersBlockedBy(req, res) {
+        const blockerId = req.query.uid 
+
+        UserModel.getUsersBlockedBy(blockerId)
+            .then((users) => {
+                res.status(200).send(users)
             })
             .catch((error) => {
                 res.status(404).send(error.message)
             })
     }
 
-    blockUser(req, res) {
-        return "TODO"
-    }
-
-    getUsersBlockedBy(req, res) {
-        return "TODO"
-    }
-
     getUsersBlocking(req, res) {
-        return "TODO"
+        const userId = req.query.uid
+
+        UserModel.getUsersWhoAreBlocking(userId)
+            .then((users) => {
+                res.status(200).send(users)
+            })
+            .catch((error) => {
+                res.status(404).send(error.message)
+            })
     }
 
     unblockUser(req, res) {
-        return "TODO"
+        const [unBlockerId, unBlockedId] = [req.body.unblocker, req.query.uid]
+
+        UserModel.handleUnblock(unBlockerId, unBlockedId)
+            .then(() => {
+                res.status(201).send("Successfully unblocked user.")
+            })
+            .catch((error) => {
+                res.status(500).send("Some error has occurred.")
+            })
     }
 }
 
