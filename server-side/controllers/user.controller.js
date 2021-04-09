@@ -11,17 +11,34 @@ class UserController {
                 res.status(201).send("Successfully registered new user.")
             })
             .catch((error) => {
-                res.status(409).send(error.message)
+                switch(error.constraint){
+                    case 'users_email_key':
+                        res.status(409).send("Email already exists.")
+                        break;
+
+                    case 'users_username_key':
+                        res.status(409).send("Username already exists.")
+                        break;
+                    
+                    case 'password_min_length':
+                        res.status(409).send("Password is too short.")
+                        break;
+
+                    default: 
+                        res.status(500).send("Some error has occurred.")
+                        break;
+                }
             })
     }
 
     getListOfUsers(req, res) {
         UserModel.getAllUsers()
             .then((users) => { 
+                // returns empty list if no users are registered.
                 res.status(200).send(users) 
             })
             .catch((error) => { 
-                res.status(404).send("Resources not found.") 
+                res.status(500).send("Some error has occurred.") 
             }) 
     }
 
@@ -48,7 +65,27 @@ class UserController {
                 res.status(200).send("Successfully updated user information.")
             })
             .catch((error) => {
-                res.status(409).send(error.message)
+                switch(error){
+                    case error.message == "User not found.":
+                        res.status(404).send(error.message)
+                        break;
+
+                    case error.constraint == 'users_email_key':
+                        res.status(409).send("Email already exists.")
+                        break;
+
+                    case error.constraint == 'users_username_key':
+                        res.status(409).send("Username already exists.")
+                        break;
+                    
+                    case error.constraint == 'password_min_length':
+                        res.status(409).send("Password is too short.")
+                        break;
+
+                    default: 
+                        res.status(500).send("Some error has occurred.")
+                        break;
+                }
             })
     }
 
@@ -60,7 +97,7 @@ class UserController {
                 res.status(200).send("Successfully removed user.")
             })
             .catch((error) => {
-                res.status(500).send(error.message)
+                res.status(500).send("Some error has occurred.")
             })
     }
 
@@ -72,7 +109,19 @@ class UserController {
                 res.status(201).send("Successfully registered new follower.")
             })
             .catch((error) => {
-                res.status(404).send(error.message)
+                switch(error.constraint){
+                    case 'follows_follower_id_fkey':
+                        res.status(404).send("Follower ID does not exist in database.")
+                        break;
+
+                    case 'follows_followed_id_fkey':
+                        res.status(404).send("Followed ID does not exist in database.")
+                        break;
+                        
+                    default: 
+                        res.status(404).send("Some error has occurred.")
+                        break;
+                }
             })
     }
 
@@ -84,7 +133,11 @@ class UserController {
                 res.status(200).send(users)
             })
             .catch((error) => {
-                res.status(404).send(error.message)
+                if(error.message == "Follower ID does not exist in database.")
+                    res.status(404).send(error.message)
+
+                else
+                    res.status(500).send("Some error has occurred.")
             })
     }
 
@@ -96,7 +149,11 @@ class UserController {
                 res.status(200).send(users)
             })
             .catch((error) => {
-                res.status(404).send(error.message)
+                if(error.message == "User ID does not exist in database.")
+                    res.status(404).send(error.message)
+
+                else
+                    res.status(500).send("Some error has occurred.")
             })
     }
 
@@ -108,7 +165,11 @@ class UserController {
                 res.status(201).send("Successfully unfollowed user.")
             })
             .catch((error) => {
-                res.status(500).send("Some error has occurred.")
+                if(error.message == "Follower ID does not exist in database." || error.message == "Followed ID does not exist in database.")
+                    res.status(404).send(error.message)
+                
+                else
+                    res.status(500).send("Some error has occurred.")
             })
     }
 
@@ -123,12 +184,15 @@ class UserController {
                 switch(error.constraint){
                     case 'blocks_blocker_id_fkey':
                         res.status(404).send("Blocker ID does not exist in database.")
+                        break;
 
                     case 'blocks_blocked_id_fkey':
                         res.status(404).send("Blocked ID does not exist in database.")
+                        break;
                         
                     default: 
                         res.status(500).send("Some error has occurred.")
+                        break;
                 }
             })
     }
@@ -141,7 +205,11 @@ class UserController {
                 res.status(200).send(users)
             })
             .catch((error) => {
-                res.status(404).send(error.message)
+                if (error.message == "Blocker ID does not exist in database.")
+                    res.status(404).send(error.message)
+
+                else
+                    res.status(500).send("Some error has occurred.")
             })
     }
 
@@ -153,7 +221,11 @@ class UserController {
                 res.status(200).send(users)
             })
             .catch((error) => {
-                res.status(404).send(error.message)
+                if(error.message == "User ID does not exist in database.")
+                    res.status(404).send(error.message)
+
+                else 
+                    res.status(500).send("some error has occurred.")
             })
     }
 
@@ -165,7 +237,11 @@ class UserController {
                 res.status(201).send("Successfully unblocked user.")
             })
             .catch((error) => {
-                res.status(500).send("Some error has occurred.")
+                if(error.message == "Blocker ID does not exist in database." || error.message == "Blocked ID does not exist in database.")
+                    res.status(404).send(error.message)
+
+                else 
+                    res.status(500).send("Some error has occurred.")
             })
     }
 }

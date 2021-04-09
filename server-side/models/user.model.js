@@ -16,19 +16,7 @@ class UserModel {
             })
             .catch(error => {
                 console.error(error)
-                switch(error.constraint){
-                    case 'users_email_key':
-                        throw new Error("Email already exists.")
-
-                    case 'users_username_key':
-                        throw new Error("Username already exists.")
-                    
-                    case 'password_min_length':
-                        throw new Error("Password is too short.")
-
-                    default: 
-                        throw new Error("Some error has occurred.")
-                }
+                throw error
             })
             .finally(() => connection.end())
     }
@@ -43,7 +31,7 @@ class UserModel {
             })
             .catch(error => {
                 console.error(error)
-                throw new Error("Some error has occurred.")
+                throw error
             })
             .finally(() => connection.end())
     }
@@ -58,7 +46,7 @@ class UserModel {
             })
             .catch(error => {
                 console.error(error)
-                throw new Error("Some error has occurred.")
+                throw error
             })
             .finally(() => connection.end())
     }
@@ -85,19 +73,7 @@ class UserModel {
             })
             .catch(error => {
                 console.error(error)
-                switch(error.constraint){
-                    case 'users_email_key':
-                        throw new Error("Email already exists.")
-
-                    case 'users_username_key':
-                        throw new Error("Username already exists.")
-                    
-                    case 'password_min_length':
-                        throw new Error("Password is too short.")
-
-                    default: 
-                        throw new Error("Some error has occurred.")
-                }
+                throw error
             })
             .finally(() => connection.end())
     }
@@ -112,7 +88,7 @@ class UserModel {
             })
             .catch(error => {
                 console.error(error)
-                throw new Error("Some error has occurred.")
+                throw error
             })
             .finally(() => connection.end())
     }
@@ -127,16 +103,7 @@ class UserModel {
             })
             .catch((error) => {
                 console.error(error)
-                switch(error.constraint){
-                    case 'follows_follower_id_fkey':
-                        throw new Error("Follower ID does not exist in database.")
-
-                    case 'follows_followed_id_fkey':
-                        throw new Error("Followed ID does not exist in database.")
-                        
-                    default: 
-                        throw new Error("Some error has occurred.")
-                }
+                throw error
             })
             .finally(() => connection.end())
     }
@@ -156,7 +123,7 @@ class UserModel {
             })
             .catch((error) => {
                 console.error(error)
-                throw new Error("Some error has occurred.")
+                throw error
             })
             .finally(() => connection.end())
     }
@@ -176,7 +143,7 @@ class UserModel {
             })
             .catch((error) => {
                 console.error(error)
-                throw new Error("Some error has occurred.")
+                throw error
             })
             .finally(() => connection.end())
     }
@@ -232,7 +199,7 @@ class UserModel {
             })
             .catch((error) => {
                 console.error(error)
-                throw new Error("Some error has occurred.")
+                throw error
             })
             .finally(() => connection.end())
     }
@@ -262,7 +229,7 @@ class UserModel {
             throw new Error("Blocker ID does not exist in database.")
         
         if(! await this.getSpecificUserWith(unBlockedId))
-            throw  new Error("Followed ID does not exist in database.")
+            throw  new Error("Blocked ID does not exist in database.")
             
         let connection = connect(),
             query = `DELETE FROM blocks WHERE blocker_id=${unBlockerId} AND blocked_id=${unBlockedId}`
