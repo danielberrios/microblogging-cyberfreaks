@@ -23,4 +23,4 @@
     <li>docker run -d --name db_server -p 5000:8083 -v $(pwd):/app "your DockerHub username"/db_project</li>
 </ul>
 <p>Project should now be running as Docker container.</p>
-<p>Note: You may change the names db_project, db_server, and the port 5000 to your preference.</p> 
+<p>Note: You may change the names db_project, db_server, and the port 5000 to your preference.</p>
