@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path')
 
 const app = express();
 const port = process.env.PORT || 8083;
@@ -8,7 +7,6 @@ const port = process.env.PORT || 8083;
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/', (req, res) => {
     res.send("API is running successfully.")
@@ -20,8 +18,8 @@ const userRouter = require('./routes/user.router');
 app.use('/api/users', userRouter);
 // app.use('/api/posts', postRouter);
 
-// app.listen(port, () => {
-//     console.log(`Server listening on PORT: ${port}`)
-// });
+app.listen(port, () => {
+    console.log(`Server listening on PORT: ${port}`)
+});
 
 module.exports = app;
