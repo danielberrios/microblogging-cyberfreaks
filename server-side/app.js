@@ -18,6 +18,8 @@ const userRouter = require('./routes/user.router');
 app.use('/api/users', userRouter);
 // app.use('/api/posts', postRouter);
 
-app.listen(port, () => {
-    console.log(`Server listening on PORT: ${port}`)
-});
+// app.listen(port, () => {
+//     console.log(`Server listening on PORT: ${port}`)
+// });
+
+module.exports = app;
