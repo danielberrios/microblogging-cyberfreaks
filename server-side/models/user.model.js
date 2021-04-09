@@ -197,7 +197,83 @@ class UserModel {
             })
             .catch((error) => {
                 console.error(error)
+                throw error
+            })
+            .finally(() => connection.end())
+    }
+
+    async registerBlock(blockerId, blockedId){
+        let connection = connect(),
+        query = `INSERT INTO blocks (blocker_id, blocked_id) VALUES (${blockerId}, ${blockedId})`
+
+        return connection.query(query)
+            .then(() => {
+                return true
+            })
+            .catch((error) => {
+                console.error(error)
+                throw error
+            })
+            .finally(() => connection.end())
+    }
+
+    async getUsersBlockedBy(blockerId) {
+        if(! await this.getSpecificUserWith(blockerId))
+            throw new Error("Blocker ID does not exist in database.")
+
+        let connection = connect(),
+            query = `SELECT first_name, last_name, username
+                     FROM users AS U INNER JOIN blocks AS B ON B.blocked_id=U.uid
+                     WHERE B.blocker_id = ${blockerId}`
+
+        return connection.query(query)
+            .then((result) => {
+                return result.rows                
+            })
+            .catch((error) => {
+                console.error(error)
                 throw new Error("Some error has occurred.")
+            })
+            .finally(() => connection.end())
+    }
+
+    async getUsersWhoAreBlocking(uid) {
+        if(! await this.getSpecificUserWith(uid))
+            throw new Error("User ID does not exist in database.")
+
+        let connection = connect(),
+            query = `SELECT first_name, last_name, username
+                     FROM users AS U INNER JOIN blocks AS B ON B.blocker_id=U.uid
+                     WHERE B.blocked_id = ${uid}`
+
+        return connection.query(query)
+            .then((result) => {
+                return result.rows
+            })
+            .catch((error) => {
+                console.error(error)
+                throw new Error("Some error has occurred.")
+            })
+            .finally(() => connection.end())
+    }
+
+    async handleUnblock(unBlockerId, unBlockedId) {
+        if (! await this.getSpecificUserWith(unBlockerId))
+            throw new Error("Blocker ID does not exist in database.")
+        
+        if(! await this.getSpecificUserWith(unBlockedId))
+            throw  new Error("Followed ID does not exist in database.")
+            
+        let connection = connect(),
+            query = `DELETE FROM blocks WHERE blocker_id=${unBlockerId} AND blocked_id=${unBlockedId}`
+
+        return connection.query(query)
+            .then(() => {
+                return true
+            })
+            .catch((error) => {
+                console.error(error)
+                throw error
             })
             .finally(() => connection.end())
     }

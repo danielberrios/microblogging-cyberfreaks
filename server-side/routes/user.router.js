@@ -15,9 +15,9 @@ router.get('/followedBy', UserController.getUsersFollowedBy)
 router.get('/following', UserController.getUsersFollowing)
 router.post('/unfollow', UserController.unfollowUser)
 
-router.post('/block/:uid', UserController.blockUser)
-router.get('/blockedBy/:uid', UserController.getUsersBlockedBy)
-router.get('/blocking/:uid', UserController.getUsersBlocking)
-router.post('/unblock/:uid', UserController.unblockUser)
+router.post('/block', UserController.blockUser)
+router.get('/blockedBy', UserController.getUsersBlockedBy)
+router.get('/blocking', UserController.getUsersBlocking)
+router.post('/unblock', UserController.unblockUser)
 
 module.exports = router
