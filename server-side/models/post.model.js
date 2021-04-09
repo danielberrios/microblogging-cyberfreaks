@@ -55,6 +55,65 @@ class PostModel {
             })
             .finally(() => connection.end())
     }
+
+    async insertNewShare(shareData) {
+
+        const { uid, post_id } = shareData
+
+        let connection = connect(),
+            query = `INSERT INTO shares(uid, post_id)
+                    VALUES($1, $2);`,
+            values = [uid, post_id];
+
+        return connection.query(query, values)
+            .then(() => {
+                return true
+            })
+            .catch(error => {
+                console.error(error)
+                switch (error.constraint) {
+                    case 'posts_uid_fkey':
+                        throw new Error("User doesn't exist.")
+                    case 'shares_post_id_fkey':
+                        throw new Error("Post doesn't exist.")
+                    default:
+                        throw new Error("Some error has occurred.")
+                }
+            })
+            .finally(() => connection.end())
+    }
+
+    async getAllPosts() {
+        let connection = connect(),
+            query = `SELECT * FROM posts`
+
+        return connection.query(query)
+            .then(result => {
+                return result.rows
+            })
+            .catch(error => {
+                console.error(error)
+                throw new Error("Some error has occurred.")
+            })
+            .finally(() => connection.end())
+    }
+
+    async getSpecificPostWith(pid) {
+        let connection = connect(),
+            query = `SELECT * FROM posts WHERE post_id=$1`,
+            values=[pid]
+
+        return connection.query(query, values)
+            .then(result => {
+                return result.rows[0]
+            })
+            .catch(error => {
+                console.error(error)
+                throw new Error("Some error has occurred.")
+            })
+            .finally(() => connection.end())
+    }
+
 }
 
 module.exports = new PostModel()

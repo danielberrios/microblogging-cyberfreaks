@@ -28,15 +28,44 @@ class PostController {
     }
 
     publishShare(req, res) {
-        return "TODO"
+        const shareData = req.body;
+
+        PostModel.insertNewShare(shareData).then(() => {
+            res.status(201).send("Successfully published new share.")
+        })
+        .catch((error) => {
+            console.log("Error: ", error)
+            res.status(409).send(error.message)
+        });
     }
 
     getPostById(req, res) {
-        return "TODO"
+        const postId = req.params.pid   
+
+        console.log("PostId: ", postId)
+
+        PostModel.getSpecificPostWith(postId)
+            .then((post) => {
+                if(post)
+                    res.status(200).json(post)
+                else
+                    res.status(404).send("Post not found.")
+            })
+            .catch((error) => {
+                res.status(500).send("An error has occurred.")
+            })
     }
 
-    getAllPosts(req, res) {
-        return "TODO"
+    getListOfAllPosts(req, res) {
+        //Return all posts. No parameters needed.
+
+        PostModel.getAllPosts().then((posts) => {
+            res.status(201).json(posts)
+        })
+        .catch((error) => {
+            console.log("Error: ", error)
+            res.status(409).send(error.message)
+        });
     }
 }
 
