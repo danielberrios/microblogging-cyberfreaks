@@ -4,7 +4,7 @@
   "description": "DB Project's Server Side",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "test": "jest"
   },
   "jest": {
@@ -19,7 +19,7 @@
     "pg": "^8.5.1"
   },
   "engines": {
-    "nodemon": "2.0.7",
+    "node": "15.11.0",
     "npm": "7.6.3"
   }
 }
