@@ -13,10 +13,10 @@ app.get('/api/', (req, res) => {
 })
 
 const userRouter = require('./routes/user.router'); 
-// const postRouter = require('./routes/post.router') ;
+const postRouter = require('./routes/post.router') ;
 
 app.use('/api/users', userRouter);
-// app.use('/api/posts', postRouter);
+app.use('/api/posts', postRouter);
 
 app.listen(port, () => {
     console.log(`Server listening on PORT: ${port}`)
