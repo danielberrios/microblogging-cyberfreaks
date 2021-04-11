@@ -56,7 +56,55 @@ class PostModel {
             .finally(() => connection.end())
     }
 
-    
+    async insertNewLike(likeData) {
+        const { uid, post_id } = likeData
+
+        let connection = connect(),
+            query = `INSERT INTO likes(uid, post_id)
+                VALUES($1, $2);`,
+            values = [uid, post_id];
+
+        return connection.query(query, values)
+            .then(() => {
+                return true
+            })
+            .catch(error => {
+                console.error(error)
+                switch (error.constraint) {
+                    case 'posts_uid_fkey':
+                        throw new Error("User doesn't exist.")
+                    case 'likes_post_id_fkey':
+                        throw new Error("Post doesn't exist.")
+                    default:
+                        throw new Error("Some error has occurred.")
+                }
+            })
+            .finally(() => connection.end())
+    }
+
+    async handleUnlike(unlikeData) {
+        const { uid, post_id } = unlikeData
+
+        if (! await this.getSpecificPostWith(post_id))
+            throw new Error("Post ID does not exist.")
+
+        //How to handle the user not existing, how to get the specific User with id uid??
+        
+        let connection = connect(),
+            query = 'DELETE FROM likes WHERE uid=$1 AND post_id=$2'
+        values = [uid, post_id]
+
+        return connection.query(query, values)
+            .then(() => {
+                return true
+            })
+            .catch((error) => {
+                console.error(error)
+                throw error
+            })
+            .finally(() => connection.end())
+
+    }
 
     async insertNewShare(shareData) {
 
@@ -103,7 +151,7 @@ class PostModel {
     async getSpecificPostWith(pid) {
         let connection = connect(),
             query = `SELECT * FROM posts WHERE post_id=$1`,
-            values=[pid]
+            values = [pid]
 
         return connection.query(query, values)
             .then(result => {
