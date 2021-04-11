@@ -56,6 +56,8 @@ class PostModel {
             .finally(() => connection.end())
     }
 
+    
+
     async insertNewShare(shareData) {
 
         const { uid, post_id } = shareData
