@@ -58,12 +58,12 @@ class PostModel {
 
     async insertNewShare(shareData) {
 
-        const { uid, post_id } = shareData
+        const { uid, post_id, message } = shareData
 
         let connection = connect(),
-            query = `INSERT INTO shares(uid, post_id)
-                    VALUES($1, $2);`,
-            values = [uid, post_id];
+            query = `INSERT INTO shares(uid, post_id, message)
+                    VALUES($1, $2, $3);`,
+            values = [uid, post_id, message];
 
         return connection.query(query, values)
             .then(() => {
