@@ -55,7 +55,7 @@ class PostController {
     }
 
     getUsersThatLikedPost(req, res) {
-        //Not sure about this
+        //Not sure about this, still needs verification
         const post_id = req.params.pid   
 
         console.log("PostId: ", post_id)
