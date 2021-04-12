@@ -65,11 +65,9 @@ class UserController {
                 res.status(200).send("Successfully updated user information.")
             })
             .catch((error) => {
-                switch(error){
-                    case error.message == "User not found.":
-                        res.status(404).send(error.message)
-                        break;
+                if(error.message == "User not found.") { res.status(404).send(error.message); return }
 
+                switch(error){
                     case error.constraint == 'users_email_key':
                         res.status(409).send("Email already exists.")
                         break;
@@ -116,6 +114,10 @@ class UserController {
 
                     case 'follows_followed_id_fkey':
                         res.status(404).send("Followed ID does not exist in database.")
+                        break;
+
+                    case 'follows_pkey':
+                        res.status(409).send("User already followed.")
                         break;
                         
                     default: 
@@ -190,6 +192,10 @@ class UserController {
                         res.status(404).send("Blocked ID does not exist in database.")
                         break;
                         
+                    case 'blocks_pkey':
+                        res.status(409).send("User already blocked.")
+                        break;
+
                     default: 
                         res.status(500).send("Some error has occurred.")
                         break;
