@@ -10,7 +10,7 @@ class UserModel {
         let connection = connect(),
             values = [first_name, last_name, email, password, username],
             query = `INSERT INTO users(first_name, last_name, email, password, username)
-                    VALUES($1, $2, $3, $4, $5)`
+                    VALUES($1, $2, $3, crypt($4, gen_salt('bf')), $5)`
 
         return connection.query(query, values)
             .then(() => {
@@ -68,7 +68,7 @@ class UserModel {
                         SET first_name=$1,
                             last_name=$2,
                             email=$3,
-                            password=$4,
+                            password=crypt($4, gen_salt('bf')),
                             username=$5
                         WHERE uid=$6`
 

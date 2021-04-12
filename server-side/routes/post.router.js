@@ -7,12 +7,12 @@ const postController = require("../controllers/post.controller");
 router.post('/', postController.publishPost)
 router.post('/reply', postController.publishReply)
 router.post('/share', postController.publishShare)
-router.get('/:pid', postController.getPostById)
+router.get('/post', postController.getPostById)
 router.get('/', postController.getListOfAllPosts)
 
-// router.post('/like/:pid', postController.likePost)
-// router.delete('/like/remove/:pid', postController.removeLike)
-// router.get('/liked/:pid', postController.getUsersThatLikedPost)
+router.post('/like', postController.likePost)
+router.delete('/like/remove', postController.removeLike)
+router.get('/liked', postController.getUsersThatLikedPost)
 
 // router.post('/dislike/:pid', postController.dislikePost)
 // router.delete('/dislike/remove/:pid', postController.removeDislike)
