@@ -14,8 +14,8 @@ router.post('/like', postController.likePost)
 router.delete('/like/remove', postController.removeLike)
 router.get('/liked', postController.getUsersThatLikedPost)
 
-// router.post('/dislike/:pid', postController.dislikePost)
-// router.delete('/dislike/remove/:pid', postController.removeDislike)
-// router.get('/disliked/:pid', postController.getUsersThatDislikedPost)
+router.post('/dislike', postController.dislikePost)
+router.delete('/dislike/remove', postController.removeDislike)
+router.get('/disliked', postController.getUsersThatDislikedPost)
 
 module.exports = router;
