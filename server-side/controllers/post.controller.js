@@ -55,7 +55,21 @@ class PostController {
     }
 
     getUsersThatLikedPost(req, res) {
-        //Don't know where to implement the the get users
+        //Not sure about this
+        const post_id = req.params.pid   
+
+        console.log("PostId: ", post_id)
+
+        PostModel.getUsersThatLikedAPost(post_id)
+            .then((user) => {
+                if(user)
+                    res.status(200).json(user)
+                else
+                    res.status(404).send("User not found.")
+            })
+            .catch((error) => {
+                res.status(500).send("An error has occurred.")
+            })
     }
 
     publishShare(req, res) {

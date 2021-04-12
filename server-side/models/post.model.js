@@ -85,11 +85,6 @@ class PostModel {
     async handleUnlike(unlikeData) {
         const { uid, post_id } = unlikeData
 
-        if (! await this.getSpecificPostWith(post_id))
-            throw new Error("Post ID does not exist.")
-
-        //How to handle the user not existing, how to get the specific User with id uid??
-        
         let connection = connect(),
             query = 'DELETE FROM likes WHERE uid=$1 AND post_id=$2'
         values = [uid, post_id]
@@ -104,6 +99,26 @@ class PostModel {
             })
             .finally(() => connection.end())
 
+    }
+
+    async getUsersThatLikedAPost(post_id){
+        if(! await this.getSpecificPostWith(post_id))
+            throw new Error("Post ID does not exist in databse.")
+
+        let connection = connect(),
+            values = [post_id],
+            query = `SELECT first_name, last_name, username
+                    FROM users AS U INNER JOIN likes AS L ON L.uid=U.uid
+                    WHERE L.post_id = $1`
+        return connection.query(query, values)
+            .then((result) => {
+                return result.rows
+            })
+            .catch((error) => {
+                console.error(error)
+                throw new Error("Some error has occurred.")
+            })
+            .finally(() => connection.end())
     }
 
     async insertNewShare(shareData) {

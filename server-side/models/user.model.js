@@ -258,26 +258,6 @@ class UserModel {
             })
             .finally(() => connection.end())
     }
-
-    async getUsersLikedBy(uid){
-        if(! await this.getSpecificUserWith(uid))
-            throw new Error("User ID does not exist in databse.")
-
-        let connection = connect(),
-            values = [uid],
-            query = `SELECT first_name, last_name, username
-                    FROM users AS U INNER JOIN likes AS L ON L.uid=U.uid
-                    WHERE L.uid = $1`
-        return connection.query(query, values)
-            .then((result) => {
-                return result.rows
-            })
-            .catch((error) => {
-                console.error(error)
-                throw new Error("Some error has occurred.")
-            })
-            .finally(() => connection.end())
-    }
 }
 
 module.exports = new UserModel()
