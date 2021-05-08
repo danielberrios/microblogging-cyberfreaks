@@ -40,7 +40,7 @@ class PostController {
     }
 
     getPostById(req, res) {
-        const postId = req.query.post_id   
+        const postId = req.params.post_id   
 
         PostModel.getSpecificPostWith(postId)
             .then((post) => {
@@ -64,122 +64,6 @@ class PostController {
             console.log("Error: ", error)
             res.status(409).send(error.message)
         });
-    }
-
-    likePost(req, res) {
-        const [post_id, uid] = [req.query.post_id, req.body.uid]
-
-        PostModel.insertNewLike(post_id, uid).then(() => {
-            res.status(201).send("Successfully published new like.")
-        })
-        .catch((error) => {
-            switch (error.constraint) {
-                case 'likes_pkey':
-                    res.status(409).send("Like already exists.")
-                    break;
-
-                case 'posts_uid_fkey':
-                    res.status(404).send("User doesn't exist.")
-                    break;
-
-                case 'likes_post_id_fkey':
-                    res.status(404).send("Post doesn't exist.")
-                    break;
-
-                default:
-                    res.status(500).send("Some error has occurred.")
-                    break;
-            }
-        });
-    }
-    
-    removeLike(req, res) {
-        const [uid, post_id] = [req.body.uid, req.query.post_id]
-
-        PostModel.handleUnlike(uid, post_id)
-        .then(() => {
-            res.status(201).send("Successfully removed like from the post.")
-        })
-        .catch((error) => {
-            if(error.message == "Post ID does not exist.")
-                res.status(404).send(error.message)
-            else
-                res.status(500).send("Some error has occurred.")
-        })
-    }
-
-    getUsersThatLikedPost(req, res) {
-        const post_id = req.query.post_id  
-
-        PostModel.getUsersThatLikedAPost(post_id)
-            .then((users) => {
-                // If users is empty, then no users has liked the post.
-                res.status(201).send(users)
-            })
-            .catch((error) => {
-                if(error.message == "Post ID does not exist.")
-                    res.status(404).send(error.message)
-                else
-                    res.status(500).send("Some error has occurred.")
-            })
-    }
-
-    dislikePost(req, res) {
-        const [post_id, uid] = [req.query.post_id, req.body.uid]
-
-        PostModel.insertNewDislike(post_id, uid)
-            .then(() => {
-                res.status(201).send("Successfully published new dislike.")
-            })
-            .catch((error) => {
-                switch (error.constraint) {
-                    case 'dislikes_pkey':
-                        res.status(409).send("Dislike already exists.")
-                        break;
-
-                    case 'posts_uid_fkey':
-                        res.status(404).send("User doesn't exist.")
-                        break;
-
-                    case 'dislikes_post_id_fkey':
-                        res.status(404).send("Post doesn't exist.")
-                        break;
-
-                    default:
-                        res.status(500).send("Some error has occurred.")
-                        break;
-                }
-            });
-    }
-    
-    removeDislike(req, res) {
-        const [uid, post_id] = [req.body.uid, req.query.post_id]
-
-        PostModel.handleUndislike(uid, post_id)
-            .then(() => {
-                res.status(201).send("Successfully removed dislike from the post.")
-            })
-            .catch((error) => {
-                if(error.message == "Post ID does not exist.")
-                    res.status(404).send(error.message)
-                else
-                    res.status(500).send("Some error has occurred.")
-            })
-    }
-
-    getUsersThatDislikedPost(req, res) {
-        const post_id = req.query.post_id  
-
-        PostModel.getUsersThatDislikedAPost(post_id)
-            .then((users) => {
-                res.status(201).send(users)
-            })
-            .catch((error) => {
-                if(error.message == "Post ID does not exist.")
-                    res.status(404).send(error.message)
-                else
-                    res.status(500).send("Some error has occurred.")
-            })
     }
 }
 

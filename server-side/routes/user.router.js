@@ -4,20 +4,10 @@ const router = express.Router()
 const UserController = require('../controllers/user.controller.js')
 
 // ROUTES + HANDLERS
-router.post('/', UserController.registerUser)
-router.get('/', UserController.getListOfUsers)
-router.get('/user', UserController.getUserById)
-router.put('/user', UserController.updateUserInfo)
-router.delete('/user', UserController.deleteUser)
-
-router.post('/follow', UserController.followUser);
-router.get('/followedBy', UserController.getUsersFollowedBy)
-router.get('/following', UserController.getUsersFollowing)
-router.post('/unfollow', UserController.unfollowUser)
-
-router.post('/block', UserController.blockUser)
-router.get('/blockedBy', UserController.getUsersBlockedBy)
-router.get('/blocking', UserController.getUsersBlocking)
-router.post('/unblock', UserController.unblockUser)
+router.post('/users', UserController.registerUser)
+router.get('/users', UserController.getListOfUsers)
+router.get('/users/:uid', UserController.getUserById)
+router.put('/users/:uid', UserController.updateUserInfo)
+router.delete('/users/:uid', UserController.deleteUser)
 
 module.exports = router

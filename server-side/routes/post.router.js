@@ -3,19 +3,12 @@ const router = express.Router()
 
 // ROUTES + HANDLERS
 const postController = require("../controllers/post.controller");
+const { interactionChecker } = require('../middleware/block.middleware')
 
-router.post('/', postController.publishPost)
-router.post('/reply', postController.publishReply)
-router.post('/share', postController.publishShare)
-router.get('/post', postController.getPostById)
-router.get('/', postController.getListOfAllPosts)
-
-router.post('/like', postController.likePost)
-router.delete('/like/remove', postController.removeLike)
-router.get('/liked', postController.getUsersThatLikedPost)
-
-router.post('/dislike', postController.dislikePost)
-router.delete('/dislike/remove', postController.removeDislike)
-router.get('/disliked', postController.getUsersThatDislikedPost)
+router.post('/posts', postController.publishPost)
+router.post('/reply', interactionChecker, postController.publishReply)
+router.post('/share', interactionChecker, postController.publishShare)
+router.get('/msg/:post_id', postController.getPostById)
+router.get('/msg', postController.getListOfAllPosts)
 
 module.exports = router;

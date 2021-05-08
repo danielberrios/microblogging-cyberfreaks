@@ -3,20 +3,30 @@ const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 8083;
+const API = 'api'
 
 app.use(cors())
-app.use(express.json());
+app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/api/', (req, res) => {
-    res.send("API is running successfully.")
+app.get(`/${API}/`, (req, res) => {
+    res.send(`${API} is running successfully.`)
 })
 
 const userRouter = require('./routes/user.router'); 
-const postRouter = require('./routes/post.router') ;
+const followRouter = require('./routes/follow.router'); 
+const blockRouter = require('./routes/block.router'); 
+const postRouter = require('./routes/post.router');
+const likeRouter = require('./routes/like.router');
+const dislikeRouter = require('./routes/dislike.router');
 
-app.use('/api/users', userRouter);
-app.use('/api/posts', postRouter);
+app.use(`/${API}/`, userRouter);
+app.use(`/${API}/`, followRouter);
+app.use(`/${API}/`, blockRouter);
+app.use(`/${API}/`, postRouter);
+app.use(`/${API}/`, likeRouter);
+app.use(`/${API}/`, dislikeRouter);
+
 
 app.listen(port, () => {
     console.log(`Server listening on PORT: ${port}`)
