@@ -11,7 +11,7 @@
 <li>Test suites are stored in the __tests__ directory.</li>
 
 # Deployment
-<p>API is currently deployed in Heroku where URL is <a href="https://database-project-backend.herokuapp.com/api/">https://database-project-backend.herokuapp.com/api/</a></p>
+<p>API is currently deployed in Heroku where URL is <a href="https://database-project-backend.herokuapp.com/fynder/">https://database-project-backend.herokuapp.com/fynder/</a></p>
 
 <p>To deploy separate directories within same repository, the article <a href="https://medium.com/@shalandy/deploy-git-subdirectory-to-heroku-ea05e95fce1f">https://medium.com/@shalandy/deploy-git-subdirectory-to-heroku-ea05e95fce1f</a> was used as reference.</p>
 
