@@ -10,7 +10,7 @@ app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
 app.get(`/${API}/`, (req, res) => {
-    res.send(`${API} is running successfully.`)
+    res.send(`Fynder is running successfully.`)
 })
 
 const userRouter = require('./routes/user.router'); 
