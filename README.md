@@ -14,7 +14,7 @@ Geraldo A. Vera Perez - geraldo.vera@upr.edu
 
 ER Video: https://www.youtube.com/watch?v=5AlIQGi6cMA
 
-REST API link: https://database-project-backend.herokuapp.com/api/
+REST API link: https://database-project-backend.herokuapp.com/fynder/
 
 <br>
 
